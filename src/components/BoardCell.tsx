@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { POSITIONS } from '../constants/config'
 import '../styles/BoardCell.css'
 interface BoardCell {
     row: number,
@@ -6,42 +7,15 @@ interface BoardCell {
 }
 
 export default function BoardCell({ row, col }: BoardCell) {
-    if (row === 0 && col === 0) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell top-left"></div >
-        )
-    } else if (row === 0 && col === 14) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell top-right"></div >
-        )
-    } else if (row === 14 && col === 0) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell bottom-left"></div >
-        )
-    } else if (row === 14 && col === 14) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell bottom-right"></div >
-        )
-    } else if (row === 0 && col !== 0 && col !== 14) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell top-middle"></div >
-        )
-    } else if (row === 14 && col !== 0 && col !== 14) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell bottom-middle"></div >
-        )
-    } else if (col === 0 && row !== 14 && row !== 0) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell left-middle"></div >
-        )
-    } else if (col === 14 && row !== 14 && row !== 0) {
-        return (
-            <div key={`${row}-${col}`} className="board-cell right-middle"></div >
-        )
-    }
-    else {
-        return (
-            <div key={`${row}-${col}`} className="board-cell middle"></div >
-        )
-    }
+    const position = POSITIONS[`${row}-${col}` as '0-0' | '0-14' | '14-0' | '14-14']
+    const className = position || (
+        row === 0 ? 'top-middle' :
+            row === 14 ? 'bottom-middle' :
+                col === 0 ? 'left-middle' :
+                    col === 14 ? 'right-middle' :
+                        'middle'
+    );
+
+    return <div key={`${row}-${col}`} className={`board-cell ${className}`}></div>;
 }
+
