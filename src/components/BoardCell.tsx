@@ -1,21 +1,17 @@
 import React, { useState } from 'react'
-import { POSITIONS } from '../constants/config'
 import '../styles/BoardCell.css'
-interface BoardCell {
-    row: number,
-    col: number
-}
+import { IRowCol } from '../types'
+import BoardCircle from './BoardCircle';
+import BoardLine from './BoardLine'
+export default function BoardCell({ row, col }: IRowCol) {
+    const [showCircle, setShowCircle] = useState(false);
+    const handleCircleClick = () => {
+        setShowCircle(!showCircle);
+    };
 
-export default function BoardCell({ row, col }: BoardCell) {
-    const position = POSITIONS[`${row}-${col}` as '0-0' | '0-14' | '14-0' | '14-14']
-    const className = position || (
-        row === 0 ? 'top-middle' :
-            row === 14 ? 'bottom-middle' :
-                col === 0 ? 'left-middle' :
-                    col === 14 ? 'right-middle' :
-                        'middle'
-    );
-
-    return <div key={`${row}-${col}`} className={`board-cell ${className}`}></div>;
+    return <div key={`${row}-${col}`} className='board-cell' onClick={handleCircleClick}>
+        <BoardLine row={row} col={col} />
+        <BoardCircle showCircle={showCircle} />
+    </div >
 }
 
