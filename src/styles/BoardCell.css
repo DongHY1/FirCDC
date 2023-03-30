@@ -2,14 +2,13 @@
     position: relative;
     width: 2rem;
     height: 2rem;
-    background-color: #ccc;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-color: antiquewhite;
 }
+
 
 .top-left::before {
     content: "";
