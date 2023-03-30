@@ -8,16 +8,6 @@
     display: flex;
     flex-wrap: wrap;
     border: 1px solid #000;
-    background-color: gainsboro;
-}
-
-.board-cell {
-    width: 2rem;
-    /* 棋盘格子大小 */
-    height: 2rem;
-    border: 1px solid #000;
-    /* 棋盘格子边框 */
-    box-sizing: border-box;
 }
 
 @media only screen and (max-width: 480px) {
@@ -25,10 +15,5 @@
     .board {
         width: 90vw;
         height: 90vw;
-    }
-
-    .board-cell {
-        width: 6vw;
-        height: 6vw;
     }
 }
