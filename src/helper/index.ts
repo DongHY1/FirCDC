@@ -1,4 +1,4 @@
-import checkWin from "./checkWIn";
+import checkWin from "./checkWin";
 export {
     checkWin
 }

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { BLACK_LABEL_INDEX, BOARD_SIZE, WHITE_LABEL_INDEX } from "../constants/config";
+import { BLACK_LABEL_INDEX, BOARD_SIZE, DIV, WHITE_LABEL_INDEX } from "../constants/config";
 import BoardCell from "./BoardCell";
 import { BoardArray } from '../types'
 import { useCounter } from "../hooks";
 import '../styles/Board.css'
 import { checkWin } from "../helper";
 import BoardInfo from "./BoardInfo";
+import BoardSelect from "./BoardSelect";
+import CanvasBoard from "./canvas/CanvasBoard";
 export default function Board() {
+    // DIV OR CANVAS?
+    const [selectedOption, setSelectedOption] = useState<string>(DIV);
     // 棋盘状态
     const [boardArray, setBoardArray] = useState<BoardArray>(() =>
         Array(BOARD_SIZE).fill(0).map(() => Array(BOARD_SIZE).fill(0))
@@ -24,7 +28,6 @@ export default function Board() {
     const [currentPerson, setCurrentPerson] = useState(BLACK_LABEL_INDEX)
     // 记录是否可以点击悔棋，默认可以
     const [canRetract, setCanRetract] = useState(true)
-
     // 记录是否可以点击取消悔棋，默认不可以
     const [canCancelRetract, setCanCancelRetract] = useState(false)
     const updateCurrentPerson = () => {
@@ -83,12 +86,15 @@ export default function Board() {
     return (
         <>
             <BoardInfo counter={counter} winner={winner} />
-            <div className="board">{board}</div>
+            <BoardSelect selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+            {/* 棋盘渲染层 */}
+            {selectedOption === DIV ? (<div className="board">{board}</div>) : (<CanvasBoard boardArray={boardArray} currentPerson={currentPerson} />)}
             <div className="buttom">
                 <button onClick={handleRetract}>悔棋</button>
                 <button onClick={handleCancelRetract}>取消悔棋</button>
                 <button onClick={handleRestart}>重新开始</button>
             </div>
+
         </>
     )
 }
