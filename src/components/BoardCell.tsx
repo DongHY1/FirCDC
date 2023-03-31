@@ -1,26 +1,41 @@
 import React, { useState } from 'react'
+import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config';
 import '../styles/BoardCell.css'
-import { IRowCol, UpdateBoardArray, BoardArray } from '../types'
+import { IRowCol, UpdateBoardArray, ChessColor } from '../types'
 import BoardCircle from './BoardCircle';
 import BoardLine from './BoardLine'
-
-type BoardCellProps = IRowCol & UpdateBoardArray;
-export default function BoardCell({ row, col, updateBoardArray }: BoardCellProps) {
+interface BoardCell {
+    player: number
+    counter: number
+    addCounter: () => void
+    decreaseCounter: () => void
+}
+type BoardCellProps = IRowCol & UpdateBoardArray & BoardCell;
+export default function BoardCell({ row, col, counter, player, updateBoardArray, addCounter, decreaseCounter }: BoardCellProps) {
     const [showCircle, setShowCircle] = useState(false);
+    const [color, setColor] = useState(ChessColor.BLACK)
+
     const handleCircleClick = ({ row, col }: IRowCol) => {
+        const isBlack = counter % 2 === 0
+        const canClick = player === 0
+        if (canClick) {
+            addCounter();
+            setColor(isBlack ? ChessColor.BLACK : ChessColor.WHITE)
+        }
         updateBoardArray((arr) => {
             const newArr = [...arr];
-            // 拷贝原数组中的一维数组到新数组中
             newArr[row] = [...arr[row]];
-            newArr[row][col] = 1;
+            if (newArr[row][col] === 0) {
+                newArr[row][col] = isBlack ? BLACK_LABEL_INDEX : WHITE_LABEL_INDEX;
+            }
             return newArr;
         });
-        setShowCircle(!showCircle);
+        setShowCircle(true);
     };
 
     return <div key={`${row}-${col}`} className='board-cell' onClick={() => handleCircleClick({ row, col })}>
         <BoardLine row={row} col={col} />
-        <BoardCircle showCircle={showCircle} color='black' />
+        <BoardCircle showCircle={showCircle} color={color} />
     </div >
 }
 

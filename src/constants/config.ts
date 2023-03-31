@@ -6,3 +6,9 @@ export const POSITIONS = {
     [`${BOARD_SIZE - 1}-${BOARD_SIZE - 1}`]: 'bottom-right'
 } as const;
 
+export const PLAYER1_LABEL = '玩家1';
+export const PLAYER2_LABEL = '玩家2';
+export const BLACK_LABEL = '黑';
+export const WHITE_LABEL = '白';
+export const BLACK_LABEL_INDEX = 1;
+export const WHITE_LABEL_INDEX = 2;
