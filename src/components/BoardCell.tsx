@@ -9,6 +9,7 @@ interface BoardCell {
     counter: number
     history: Array<BoardArray>
     currentPerson: number
+    winner: number
     addCounter: () => void
     decreaseCounter: () => void
     updateCurrentPerson: () => void
@@ -16,11 +17,11 @@ interface BoardCell {
     setCanRetract: any
 }
 type BoardCellProps = IRowCol & Update & BoardCell;
-export default function BoardCell({ row, col, setCanRetract, currentPerson, updateCurrentPerson, history, setHistory, counter, boardArray, updateBoardArray, addCounter, decreaseCounter }: BoardCellProps) {
+export default function BoardCell({ row, col, winner, setCanRetract, currentPerson, updateCurrentPerson, history, setHistory, counter, boardArray, updateBoardArray, addCounter, decreaseCounter }: BoardCellProps) {
     const player = boardArray[row][col]
     const handleCircleClick = () => {
         // 只有当Player = 0的时候才能点击
-        if (player === 0) {
+        if (player === 0 && winner === 0) {
             updateCurrentPerson();
             addCounter();
             setCanRetract(true)
