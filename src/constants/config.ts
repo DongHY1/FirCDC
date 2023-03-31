@@ -19,3 +19,4 @@ export const CANVAS = "canvas"
 export const LINE_WIDTH = 1;
 export const LINE_COLOR = "#000000";
 export const STEP_COLOR = "#ffffff";
+export const CELL_SIZE = BOARD_SIZE / 15; // 格子大小

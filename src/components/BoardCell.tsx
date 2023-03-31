@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
 import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config';
-import '../styles/BoardCell.css'
 import { IRowCol, Update, BoardArray } from '../types'
 import BoardCircle from './BoardCircle';
 import BoardLine from './BoardLine'
+import '../styles/BoardCell.css'
 interface BoardCell {
     boardArray: BoardArray
     history: Array<BoardArray>

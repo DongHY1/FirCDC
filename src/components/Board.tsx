@@ -72,15 +72,20 @@ export default function Board() {
         }
     }
     const handleRestart = () => {
-        setBoardArray(() =>
-            Array(BOARD_SIZE).fill(0).map(() => Array(BOARD_SIZE).fill(0))
-        );
-        setHistory([]);
-        setRetract([]);
-        setCurrentPerson(BLACK_LABEL_INDEX);
-        setCanRetract(true);
-        setWinner(0);
-        restartCounter()
+        if (selectedOption === DIV) {
+            setBoardArray(() =>
+                Array(BOARD_SIZE).fill(0).map(() => Array(BOARD_SIZE).fill(0))
+            );
+            setHistory([]);
+            setRetract([]);
+            setCurrentPerson(BLACK_LABEL_INDEX);
+            setCanRetract(true);
+            setWinner(0);
+            restartCounter()
+        } else {
+            // TODO:clean canvas logic
+            console.log('clean canvas!')
+        }
     };
 
     return (

@@ -1,75 +1,60 @@
-import { useState, useEffect, useRef } from "react";
-import { BOARD_SIZE, LINE_WIDTH, LINE_COLOR, STEP_COLOR, PLAYER1_COLOR, PLAYER2_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from "../../constants/config";
-import { BoardArray } from "../../types";
-interface CanvasBoardProps {
-    boardArray: BoardArray;
-    currentPerson: number;
-}
+import React, { useRef, useEffect } from "react";
+import { BOARD_SIZE, CELL_SIZE } from "../../constants/config";
 
-export default function CanvasBoard({ boardArray, currentPerson }: CanvasBoardProps) {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+
+
+function CanvasBoard() {
+    const canvasRef = useRef(null);
+
+    function handleCanvasClick(e) {
+        const canvas = canvasRef.current;
+        if (!canvas) return
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const row = Math.floor(y / CELL_SIZE);
+        const col = Math.floor(x / CELL_SIZE);
+
+        const ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.arc(
+            col * CELL_SIZE + CELL_SIZE / 2,
+            row * CELL_SIZE + CELL_SIZE / 2,
+            CELL_SIZE / 2 - 2,
+            0,
+            2 * Math.PI
+        );
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const context = canvas.getContext("2d");
-        if (!context) return;
-
-        const boardWidth = canvas.width - LINE_WIDTH;
-        const boardHeight = canvas.height - LINE_WIDTH;
-        const lineGap = boardWidth / (BOARD_SIZE - 1);
+        if (!canvas) return
+        const ctx = canvas.getContext("2d");
 
         // 绘制棋盘
-        context.strokeStyle = LINE_COLOR;
-        context.lineWidth = LINE_WIDTH;
-        for (let i = 0; i < BOARD_SIZE; i++) {
-            const x = lineGap * i + LINE_WIDTH / 2;
-            context.beginPath();
-            context.moveTo(x, LINE_WIDTH / 2);
-            context.lineTo(x, boardHeight);
-            context.stroke();
-            const y = lineGap * i + LINE_WIDTH / 2;
-            context.beginPath();
-            context.moveTo(LINE_WIDTH / 2, y);
-            context.lineTo(boardWidth, y);
-            context.stroke();
+        ctx.beginPath();
+        for (let i = 0; i < 15; i++) {
+            ctx.moveTo(CELL_SIZE / 2 + i * CELL_SIZE, CELL_SIZE / 2);
+            ctx.lineTo(CELL_SIZE / 2 + i * CELL_SIZE, BOARD_SIZE - CELL_SIZE / 2);
         }
-
-        // 绘制棋子
-        const radius = lineGap / 2 - 2;
-        for (let i = 0; i < BOARD_SIZE; i++) {
-            for (let j = 0; j < BOARD_SIZE; j++) {
-                const x = i * lineGap + LINE_WIDTH / 2;
-                const y = j * lineGap + LINE_WIDTH / 2;
-
-                if (boardArray[i][j] === BLACK_LABEL_INDEX) {
-                    context.fillStyle = PLAYER1_COLOR;
-                    context.beginPath();
-                    context.arc(x, y, radius, 0, 2 * Math.PI);
-                    context.fill();
-                } else if (boardArray[i][j] === WHITE_LABEL_INDEX) {
-                    context.fillStyle = PLAYER2_COLOR;
-                    context.beginPath();
-                    context.arc(x, y, radius, 0, 2 * Math.PI);
-                    context.fill();
-                }
-            }
+        for (let j = 0; j < 15; j++) {
+            ctx.moveTo(CELL_SIZE / 2, CELL_SIZE / 2 + j * CELL_SIZE);
+            ctx.lineTo(BOARD_SIZE - CELL_SIZE / 2, CELL_SIZE / 2 + j * CELL_SIZE);
         }
-    }, [boardArray]);
+        ctx.stroke();
 
-    const handleCanvasClick = () => {
-        console.log("click!");
-    };
+        // 监听 Canvas 点击事件
+        canvas.addEventListener("click", handleCanvasClick);
 
-    return (
-        <canvas
-            ref={canvasRef}
-            width={450}
-            height={450}
-            onClick={handleCanvasClick}
-        >
-            您的浏览器不支持Canvas
-        </canvas>
-    );
+        // 组件销毁时，移除事件监听器
+        return () => {
+            canvas.removeEventListener("click", handleCanvasClick);
+        };
+    }, []);
+
+    return <canvas ref={canvasRef} width={BOARD_SIZE} height={BOARD_SIZE} />;
 }
+
+export default CanvasBoard;
