@@ -13,8 +13,11 @@ interface BoardButtonProps {
 export default function BoardButton({ history, counter, addCounter, decreaseCounter, setBoardArray }: BoardButtonProps) {
 
     const handleRetract = () => {
-        setBoardArray(history[counter - 1])
-        decreaseCounter()
+        if (counter > 0) {
+            setBoardArray(history[counter - 1])
+            decreaseCounter()
+        }
+
     }
     const handleCancelRetract = () => {
         console.log('撤销悔棋了')
