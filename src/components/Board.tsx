@@ -22,8 +22,11 @@ export default function Board() {
     const [retract, setRetract] = useState<BoardArray>([]);
     // 记录当前下棋的选手是黑子还是白子，1代表黑，2代表白
     const [currentPerson, setCurrentPerson] = useState(BLACK_LABEL_INDEX)
-    // 记录是否悔棋
+    // 记录是否可以点击悔棋，默认可以
     const [canRetract, setCanRetract] = useState(true)
+
+    // 记录是否可以点击取消悔棋，默认不可以
+    const [canCancelRetract, setCanCancelRetract] = useState(false)
     const updateCurrentPerson = () => {
         currentPerson === BLACK_LABEL_INDEX ? setCurrentPerson(WHITE_LABEL_INDEX) : setCurrentPerson(BLACK_LABEL_INDEX)
     }
@@ -37,7 +40,7 @@ export default function Board() {
     const board = [];
     for (let i = 0; i < BOARD_SIZE; i++) {
         for (let j = 0; j < BOARD_SIZE; j++) {
-            board.push(<BoardCell key={`${i}-${j}`} winner={winner} setCanRetract={setCanRetract} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} row={i} col={j} history={history} setHistory={setHistory} counter={counter} boardArray={boardArray} updateBoardArray={updateBoardArray} addCounter={addCounter} decreaseCounter={decreaseCounter} />);
+            board.push(<BoardCell key={`${i}-${j}`} winner={winner} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} row={i} col={j} history={history} setHistory={setHistory} boardArray={boardArray} updateBoardArray={updateBoardArray} addCounter={addCounter} />);
         }
     }
     const handleRetract = () => {
@@ -50,14 +53,16 @@ export default function Board() {
             setBoardArray(lastBoardArray);    // 将 boardArray 恢复到上一步
             decreaseCounter()
             setCanRetract(false)
+            setCanCancelRetract(true) //只有在点击悔棋后，才能触发取消悔棋的逻辑
         }
 
     }
     const handleCancelRetract = () => {
-        if (retract.length > 0 && winner === 0) {
+        // 取消悔棋应该只能在 悔棋操作后发生
+        if (retract.length > 0 && canCancelRetract && winner === 0) {
             setBoardArray(retract)
             setRetract([])
-            setCanRetract(true)
+            setCanRetract(true) // 取消悔棋后就不可以悔棋了,等待click后
             addCounter()
             updateCurrentPerson()
             setHistory([...history, boardArray])

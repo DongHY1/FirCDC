@@ -1,30 +1,30 @@
 import React, { useState } from 'react'
 import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config';
 import '../styles/BoardCell.css'
-import { IRowCol, Update, ChessColor, BoardArray } from '../types'
+import { IRowCol, Update, BoardArray } from '../types'
 import BoardCircle from './BoardCircle';
 import BoardLine from './BoardLine'
 interface BoardCell {
     boardArray: BoardArray
-    counter: number
     history: Array<BoardArray>
     currentPerson: number
     winner: number
-    addCounter: () => void
-    decreaseCounter: () => void
-    updateCurrentPerson: () => void
     setHistory: any
     setCanRetract: any
+    setCanCancelRetract: any
+    addCounter: () => void
+    updateCurrentPerson: () => void
 }
 type BoardCellProps = IRowCol & Update & BoardCell;
-export default function BoardCell({ row, col, winner, setCanRetract, currentPerson, updateCurrentPerson, history, setHistory, counter, boardArray, updateBoardArray, addCounter, decreaseCounter }: BoardCellProps) {
+export default function BoardCell({ row, col, winner, setCanCancelRetract, setCanRetract, currentPerson, updateCurrentPerson, history, setHistory, boardArray, updateBoardArray, addCounter }: BoardCellProps) {
     const player = boardArray[row][col]
     const handleCircleClick = () => {
         // 只有当Player = 0的时候才能点击
         if (player === 0 && winner === 0) {
             updateCurrentPerson();
             addCounter();
-            setCanRetract(true)
+            setCanRetract(true)  // click之后是可以悔棋的
+            setCanCancelRetract(false) //click之后不可以直接取消悔棋
             setHistory([...history, boardArray])
             updateBoardArray((arr) => {
                 const newArr = [...arr];
