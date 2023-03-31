@@ -3,8 +3,9 @@ export interface IRowCol {
     col: number
 }
 export type BoardArray = number[][];
-export interface UpdateBoardArray {
+export interface Update {
     updateBoardArray: (updateFn: (prevBoardArray: BoardArray) => BoardArray) => void;
+    updateHistory: () => void;
 }
 export enum ChessColor {
     BLACK = 'black',

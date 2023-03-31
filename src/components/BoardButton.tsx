@@ -1,15 +1,19 @@
 import React from 'react'
 import { useCounter } from '../hooks'
 import '../styles/BoardButton.css'
+import { Update } from '../types'
 interface BoardButtonProps {
     addCounter: () => void
     decreaseCounter: () => void
+    history: any
+    counter: number
+    setBoardArray: any
 }
 
-export default function BoardButton({ addCounter, decreaseCounter }: BoardButtonProps) {
+export default function BoardButton({ history, counter, addCounter, decreaseCounter, setBoardArray }: BoardButtonProps) {
 
     const handleRetract = () => {
-        console.log('悔棋了')
+        setBoardArray(history[counter - 1])
         decreaseCounter()
     }
     const handleCancelRetract = () => {
