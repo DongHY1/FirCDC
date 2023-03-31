@@ -8,9 +8,13 @@ export default function useCounter(value: number) {
     const decreaseCounter = () => {
         setCounter((counter) => (counter - 1))
     }
+    const restartCounter = () => {
+        setCounter(0)
+    }
     return {
         counter,
         addCounter,
-        decreaseCounter
+        decreaseCounter,
+        restartCounter
     }
 }

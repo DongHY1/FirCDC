@@ -5,6 +5,7 @@ import { BoardArray } from '../types'
 import { useCounter } from "../hooks";
 import '../styles/Board.css'
 import { checkWin } from "../helper";
+import BoardInfo from "./BoardInfo";
 export default function Board() {
     // 棋盘状态
     const [boardArray, setBoardArray] = useState<BoardArray>(() =>
@@ -14,7 +15,7 @@ export default function Board() {
         setBoardArray((prevBoardArray) => updateFn(prevBoardArray))
     };
     // 记录操作步数
-    const { counter, addCounter, decreaseCounter } = useCounter(0)
+    const { counter, addCounter, decreaseCounter, restartCounter } = useCounter(0)
     // 存放棋盘的历史记录
     const [history, setHistory] = useState<BoardArray[]>([]);
     // 存放悔棋的唯一记录
@@ -62,15 +63,27 @@ export default function Board() {
             setHistory([...history, boardArray])
         }
     }
+    const handleRestart = () => {
+        setBoardArray(() =>
+            Array(BOARD_SIZE).fill(0).map(() => Array(BOARD_SIZE).fill(0))
+        );
+        setHistory([]);
+        setRetract([]);
+        setCurrentPerson(BLACK_LABEL_INDEX);
+        setCanRetract(true);
+        setWinner(0);
+        restartCounter()
+    };
+
     return (
         <>
-            回合数：{counter}
-            <span>{winner === BLACK_LABEL_INDEX ? '黑' : winner === WHITE_LABEL_INDEX ? '白' : ''}</span>
+            <BoardInfo counter={counter} winner={winner} />
+            <div className="board">{board}</div>
             <div className="buttom">
                 <button onClick={handleRetract}>悔棋</button>
                 <button onClick={handleCancelRetract}>取消悔棋</button>
+                <button onClick={handleRestart}>重新开始</button>
             </div>
-            <div className="board">{board}</div>
         </>
     )
 }

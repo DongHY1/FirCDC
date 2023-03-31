@@ -1,0 +1,17 @@
+.BoardInfo {
+    display: flex;
+    flex-direction: column;
+    height: 5rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.counter {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.winner {
+    font-size: 1.2rem;
+    color: red;
+}
