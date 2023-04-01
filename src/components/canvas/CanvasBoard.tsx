@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { LINE_WIDTH, LINE_COLOR, PLAYER1_COLOR, PLAYER2_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE } from "../../constants/config";
+import { LINE_WIDTH, LINE_COLOR, PLAYER1_COLOR, PLAYER2_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE } from "../../constants/config";
 import { BoardArray, ChessColor, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
     currentPerson: number;
     updateCurrentPerson: () => void
 }
-
+interface DrawCircleProps {
+    context: any
+    col: number
+    row: number
+}
 export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray }: CanvasBoardProps & Update) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,8 +35,39 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         }
         context.stroke();
 
+        // 根据boardArray 绘制
+        for (let row = 0; row < BOARD_SIZE; row++) {
+            for (let col = 0; col < BOARD_SIZE; col++) {
+                if (boardArray[row][col] !== 0) {
+                    context.beginPath();
+                    context.arc(
+                        col * CELL_SIZE + CELL_SIZE / 2,
+                        row * CELL_SIZE + CELL_SIZE / 2,
+                        CELL_SIZE / 2 - 2,
+                        0,
+                        2 * Math.PI
+                    );
+                    context.fillStyle = boardArray[row][col] === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
+                    context.fill();
+                }
+            }
+        }
+
     }, [boardArray]);
 
+    const drawCircle = (context: any, col: number, row: number) => {
+        // context.beginPath();
+        // context.arc(
+        //     col * CELL_SIZE + CELL_SIZE / 2,
+        //     row * CELL_SIZE + CELL_SIZE / 2,
+        //     CELL_SIZE / 2 - 2,
+        //     0,
+        //     2 * Math.PI
+        // );
+        // context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
+        // context.fill();
+        console.log('draw done!')
+    }
     const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -47,6 +82,8 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         const row = Math.floor(y / CELL_SIZE) - 1;
         const col = Math.floor(x / CELL_SIZE) - 1;
         console.log(row, col, currentPerson)
+
+        // 绘图逻辑
         if (boardArray[row][col] === 0) {
             context.beginPath();
             context.arc(
@@ -58,6 +95,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
             );
             context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
             context.fill();
+
             updateCurrentPerson()
             updateBoardArray((arr) => {
                 const newArr = [...arr];
