@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import '../styles/BoardInfo.css'
+import { useEffect } from 'react'
 import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import confetti from 'canvas-confetti'
+import '../styles/BoardInfo.css'
 interface BoardInfoProps {
     counter: number
     winner: number

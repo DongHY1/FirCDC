@@ -3,13 +3,13 @@ import { BLACK_LABEL_INDEX, BOARD_SIZE, DIV, WHITE_LABEL_INDEX } from "../consta
 import BoardCell from "./BoardCell";
 import { BoardArray } from '../types'
 import { useCounter } from "../hooks";
-import '../styles/Board.css'
 import { checkWin } from "../helper";
 import BoardInfo from "./BoardInfo";
 import BoardSelect from "./BoardSelect";
 import CanvasBoard from "./canvas/CanvasBoard";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button'
+import '../styles/Board.css'
 export default function Board() {
     // DIV OR CANVAS?
     const [selectedOption, setSelectedOption] = useState<string>(DIV);
