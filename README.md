@@ -43,4 +43,4 @@ A Five In A Row game - 五子棋, which is a personal project for CDC.
 ```
 ## License
 
-[MIT](./LICENSE) License © 2021-PRESENT [Anthony Fu](https://github.com/antfu)
+[MIT](./LICENSE) License © 2021-PRESENT [DongHY1](https://github.com/DongHY1)
