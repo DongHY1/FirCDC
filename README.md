@@ -6,7 +6,10 @@ A Five In A Row game - 五子棋, which is a personal project for CDC.
 
 [fir.szuhy.xyz](https://fir.szuhy.xyz)
 
-HAVE FUN！
+## Feature
+- 📝 **Undo,Redo** -  allows player to take back their last move and cancel.
+- 🎨 **Canvas** - can switch between two canvas modes and a DIV mode for the chessboard.
+- 📱 **Mobile Friendly** - can be displayed correctly on devices with different screen sizes.
 ## Setup
 
 - Insall [Node.js](https://nodejs.org/en/) >=v16 and [pnpm](https://pnpm.io/)
@@ -37,7 +40,6 @@ HAVE FUN！
 ├─ tsconfig.json        
 ├─ tsconfig.node.json   
 └─ vite.config.ts  
-    
 ```
 ## License
 
