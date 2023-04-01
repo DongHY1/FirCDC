@@ -1,12 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/BoardInfo.css'
-import { BLACK_LABEL_INDEX } from '../constants/config';
+import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import confetti from 'canvas-confetti'
 interface BoardInfoProps {
-    counter: number;
+    counter: number
     winner: number
+    handleRestart: () => void
 }
-export default function BoardInfo({ counter, winner }: BoardInfoProps) {
+export default function BoardInfo({ counter, winner, handleRestart }: BoardInfoProps) {
+    const [open, setOpen] = useState(true);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleAgain = () => {
+        handleRestart()
+    }
     // 判断是否有赢家
     function congrats() {
         const defaults = {
@@ -55,15 +69,28 @@ export default function BoardInfo({ counter, winner }: BoardInfoProps) {
     }), [winner]
     return (
         <div className="BoardInfo">
-            {/* <div className="counter">
-                回合数：{counter}
-            </div> */}
-            {winner !== 0 && (
-                // 如果有赢家，则显示赢家的信息
-                <div className="winner">
-                    {winner === BLACK_LABEL_INDEX ? '黑色赢了' : '白色赢了'}
-                </div>
-            )}
+            <h2>五子棋</h2>
+            <Dialog
+                open={winner !== 0 && open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {winner === BLACK_LABEL_INDEX ? '🎉黑子赢了' : winner === WHITE_LABEL_INDEX ? '🎉白子赢了' : null}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        你想再来一局吗？
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>残忍拒绝</Button>
+                    <Button onClick={handleAgain}>
+                        再来一局
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }

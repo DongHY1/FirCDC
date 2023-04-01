@@ -8,6 +8,8 @@ import { checkWin } from "../helper";
 import BoardInfo from "./BoardInfo";
 import BoardSelect from "./BoardSelect";
 import CanvasBoard from "./canvas/CanvasBoard";
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button'
 export default function Board() {
     // DIV OR CANVAS?
     const [selectedOption, setSelectedOption] = useState<string>(DIV);
@@ -89,16 +91,18 @@ export default function Board() {
     return (
         <>
 
-            <BoardInfo counter={counter} winner={winner} />
+            <BoardInfo counter={counter} winner={winner} handleRestart={handleRestart} />
             <BoardSelect selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
 
             {/* 棋盘渲染层 */}
             {selectedOption === DIV ? (<div className="board">{board}</div>) : (<CanvasBoard boardArray={boardArray} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} updateBoardArray={updateBoardArray} winner={winner} history={history} setHistory={setHistory} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} addCounter={addCounter} canRetract={canRetract} canCancelRetract={canCancelRetract} isRestart={isRestart} setIsRestart={setIsRestart} />)}
 
             <div className="buttomWrap">
-                <button  onClick={handleRetract}>悔棋</button>
-                <button  onClick={handleCancelRetract}>取消悔棋</button>
-                <button  onClick={handleRestart}>重新开始</button>
+                <ButtonGroup variant="text" aria-label="text button group">
+                    <Button onClick={handleRetract}>悔棋</Button>
+                    <Button onClick={handleCancelRetract}>取消悔棋</Button>
+                    <Button onClick={handleRestart}>重新开始</Button>
+                </ButtonGroup>
             </div>
 
         </>
