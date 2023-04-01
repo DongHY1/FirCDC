@@ -1,5 +1,5 @@
 export const BOARD_SIZE = 15; // 棋盘大小
-export const CANVAS_SIZE = 480; // 棋盘大小
+export const CANVAS_SIZE = 450; // 棋盘大小
 export const CELL_SIZE = CANVAS_SIZE / 15; // 格子大小
 export const POSITIONS = {
     '0-0': 'top-left',

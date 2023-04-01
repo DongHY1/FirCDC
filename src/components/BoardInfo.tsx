@@ -14,10 +14,6 @@ interface BoardInfoProps {
     handleRestart: () => void
 }
 export default function BoardInfo({ counter, winner, handleRestart }: BoardInfoProps) {
-    const [open, setOpen] = useState(true);
-    const handleClose = () => {
-        setOpen(false);
-    };
     const handleAgain = () => {
         handleRestart()
     }
@@ -71,21 +67,14 @@ export default function BoardInfo({ counter, winner, handleRestart }: BoardInfoP
         <div className="BoardInfo">
             <h2>五子棋</h2>
             <Dialog
-                open={winner !== 0 && open}
-                onClose={handleClose}
+                open={winner !== 0}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
                     {winner === BLACK_LABEL_INDEX ? '🎉黑子赢了' : winner === WHITE_LABEL_INDEX ? '🎉白子赢了' : null}
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        你想再来一局吗？
-                    </DialogContentText>
-                </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>残忍拒绝</Button>
                     <Button onClick={handleAgain}>
                         再来一局
                     </Button>

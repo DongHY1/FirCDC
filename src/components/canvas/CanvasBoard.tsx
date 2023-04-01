@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE } from "../../constants/config";
-import { BoardArray, ChessColor, Update } from "../../types";
+import { BoardArray, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
     currentPerson: number;
@@ -50,7 +50,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
                     context.arc(
                         col * CELL_SIZE + CELL_SIZE / 2,
                         row * CELL_SIZE + CELL_SIZE / 2,
-                        CELL_SIZE / 2 - 2,
+                        CELL_SIZE / 2 - 3,
                         0,
                         2 * Math.PI
                     );
@@ -93,7 +93,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
                     context.arc(
                         col * CELL_SIZE + CELL_SIZE / 2,
                         row * CELL_SIZE + CELL_SIZE / 2,
-                        CELL_SIZE / 2 - 2,
+                        CELL_SIZE / 2 - 3,
                         0,
                         2 * Math.PI
                     );
@@ -123,7 +123,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
             context.arc(
                 col * CELL_SIZE + CELL_SIZE / 2,
                 row * CELL_SIZE + CELL_SIZE / 2,
-                CELL_SIZE / 2 - 2,
+                CELL_SIZE / 2 - 3,
                 0,
                 2 * Math.PI
             );
