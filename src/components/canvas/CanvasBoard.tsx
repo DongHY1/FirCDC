@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE, CANVAS_PHONE_SIZE, CELL_PHONE_SIZE } from "../../constants/config";
+import useMobileDetect from 'use-mobile-detect-hook';
 import { BoardArray, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
@@ -18,86 +19,57 @@ interface CanvasBoardProps {
 }
 export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray, winner, addCounter, setCanRetract, setCanCancelRetract, setHistory, history, canRetract, canCancelRetract, isRestart, setIsRestart }: CanvasBoardProps & Update) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const detectMobile = useMobileDetect();
     const [isDrawTable, setIsDrawTable] = useState(false)
-
-    // 初始化逻辑
+    const isMobile: boolean = detectMobile.isMobile()
+    const _CANVAS_SIZE = isMobile ? CANVAS_PHONE_SIZE : CANVAS_SIZE
+    const _CELL_SIZE = isMobile ? CELL_PHONE_SIZE : CELL_SIZE
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const context = canvas.getContext("2d");
         if (!context) return;
+
+        // 初始化逻辑
         if (!isDrawTable) {
-            // 线的属性
-            context.clearRect(0, 0, canvas.width, canvas.height)
-            context.strokeStyle = LINE_COLOR;
-            context.lineWidth = LINE_WIDTH;
-            // 绘制棋盘
-            context.beginPath();
-            for (let i = 0; i < CANVAS_SIZE; i++) {
-                context.moveTo(CELL_SIZE / 2 + i * CELL_SIZE, CELL_SIZE / 2);
-                context.lineTo(CELL_SIZE / 2 + i * CELL_SIZE, CANVAS_SIZE - CELL_SIZE / 2);
-                context.moveTo(CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
-                context.lineTo(CANVAS_SIZE - CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
-            }
-            context.stroke();
-            context.closePath();
+            drawBoard(canvas, context)
             setIsDrawTable(true)
         }
+        drawCircle(canvas, context)
 
-        // 根据boardArray 绘制
-        for (let row = 0; row < BOARD_SIZE; row++) {
-            for (let col = 0; col < BOARD_SIZE; col++) {
-                if (boardArray[row][col] !== 0) {
-                    context.beginPath();
-                    context.arc(
-                        col * CELL_SIZE + CELL_SIZE / 2,
-                        row * CELL_SIZE + CELL_SIZE / 2,
-                        CELL_SIZE / 2 - 3,
-                        0,
-                        2 * Math.PI
-                    );
-                    context.fillStyle = boardArray[row][col] === BLACK_LABEL_INDEX ? '#3d3d3d' : '#efefef';
-                    context.fill();
-                }
-            }
+        // 反悔等逻辑
+        if (canRetract || canCancelRetract || isRestart) {
+            drawBoard(canvas, context)
+            drawCircle(canvas, context)
         }
+    }, [boardArray, canRetract, canCancelRetract, isRestart, isDrawTable]);
 
-    }, [boardArray]);
-
-    // 反悔等逻辑
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const context = canvas.getContext("2d");
-        if (!context) return;
+    const drawBoard = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
         // 线的属性
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.strokeStyle = LINE_COLOR;
         context.lineWidth = LINE_WIDTH;
-
         // 绘制棋盘
         context.beginPath();
         for (let i = 0; i < CANVAS_SIZE; i++) {
-            context.moveTo(CELL_SIZE / 2 + i * CELL_SIZE, CELL_SIZE / 2);
-            context.lineTo(CELL_SIZE / 2 + i * CELL_SIZE, CANVAS_SIZE - CELL_SIZE / 2);
-            context.moveTo(CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
-            context.lineTo(CANVAS_SIZE - CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
+            context.moveTo(_CELL_SIZE / 2 + i * _CELL_SIZE, _CELL_SIZE / 2);
+            context.lineTo(_CELL_SIZE / 2 + i * _CELL_SIZE, _CANVAS_SIZE - _CELL_SIZE / 2);
+            context.moveTo(_CELL_SIZE / 2, _CELL_SIZE / 2 + i * _CELL_SIZE);
+            context.lineTo(_CANVAS_SIZE - _CELL_SIZE / 2, _CELL_SIZE / 2 + i * _CELL_SIZE);
         }
         context.stroke();
         context.closePath();
-
-
-
+    }
+    const drawCircle = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
         // 根据boardArray 绘制
         for (let row = 0; row < BOARD_SIZE; row++) {
             for (let col = 0; col < BOARD_SIZE; col++) {
                 if (boardArray[row][col] !== 0) {
                     context.beginPath();
                     context.arc(
-                        col * CELL_SIZE + CELL_SIZE / 2,
-                        row * CELL_SIZE + CELL_SIZE / 2,
-                        CELL_SIZE / 2 - 3,
+                        col * _CELL_SIZE + _CELL_SIZE / 2,
+                        row * _CELL_SIZE + _CELL_SIZE / 2,
+                        _CELL_SIZE / 2 - 3,
                         0,
                         2 * Math.PI
                     );
@@ -106,60 +78,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
                 }
             }
         }
-    }, [canRetract, canCancelRetract, isRestart])
-
-    // 手机端逻辑
-    useEffect(() => {
-        function handleResize() {
-            const canvas = canvasRef.current;
-            if (!canvas) return;
-            const context = canvas.getContext("2d");
-            if (!context) return;
-            if (!isDrawTable) {
-                // 线的属性
-                context.clearRect(0, 0, canvas.width, canvas.height)
-                context.strokeStyle = LINE_COLOR;
-                context.lineWidth = LINE_WIDTH;
-                // 绘制棋盘
-                context.beginPath();
-
-                for (let i = 0; i < CANVAS_PHONE_SIZE; i++) {
-                    context.moveTo(CELL_PHONE_SIZE / 2 + i * CELL_PHONE_SIZE, CELL_PHONE_SIZE / 2);
-                    context.lineTo(CELL_PHONE_SIZE / 2 + i * CELL_PHONE_SIZE, CANVAS_PHONE_SIZE - CELL_PHONE_SIZE / 2);
-                    context.moveTo(CELL_PHONE_SIZE / 2, CELL_PHONE_SIZE / 2 + i * CELL_PHONE_SIZE);
-                    context.lineTo(CANVAS_PHONE_SIZE - CELL_PHONE_SIZE / 2, CELL_PHONE_SIZE / 2 + i * CELL_PHONE_SIZE);
-                }
-                context.stroke();
-                context.closePath();
-                setIsDrawTable(true)
-            }
-
-            // 根据boardArray 绘制
-            for (let row = 0; row < BOARD_SIZE; row++) {
-                for (let col = 0; col < BOARD_SIZE; col++) {
-                    if (boardArray[row][col] !== 0) {
-                        context.beginPath();
-                        context.arc(
-                            col * CELL_SIZE + CELL_SIZE / 2,
-                            row * CELL_SIZE + CELL_SIZE / 2,
-                            CELL_SIZE / 2 - 3,
-                            0,
-                            2 * Math.PI
-                        );
-                        context.fillStyle = boardArray[row][col] === BLACK_LABEL_INDEX ? '#3d3d3d' : '#efefef';
-                        context.fill();
-                    }
-                }
-            }
-        }
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-    // 点击后，悔棋和取消悔棋有问题
+    }
     const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -170,22 +89,11 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        const row = Math.floor(y / CELL_SIZE) - 1;
-        const col = Math.floor(x / CELL_SIZE) - 1;
+        const row = Math.floor(y / _CELL_SIZE) - 1;
+        const col = Math.floor(x / _CELL_SIZE) - 1;
 
         // 绘图逻辑
         if (boardArray[row][col] === 0 && winner === 0) {
-            context.beginPath();
-            context.arc(
-                col * CELL_SIZE + CELL_SIZE / 2,
-                row * CELL_SIZE + CELL_SIZE / 2,
-                CELL_SIZE / 2 - 3,
-                0,
-                2 * Math.PI
-            );
-            context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? '#3d3d3d' : '#efefef';
-            context.fill();
-            context.closePath();
             updateCurrentPerson()
             addCounter();
             setCanRetract(true)  // click之后是可以悔棋的
@@ -206,8 +114,8 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         <canvas
             ref={canvasRef}
             style={{ padding: '1rem' }}
-            width={CANVAS_SIZE}
-            height={CANVAS_SIZE}
+            width={_CANVAS_SIZE}
+            height={_CANVAS_SIZE}
             onClick={handleCanvasClick}
         >
             您的浏览器不支持Canvas

@@ -1,6 +1,7 @@
 export const BOARD_SIZE = 15; // 棋盘大小
 export const CANVAS_SIZE = 450; // 棋盘大小
-export const CANVAS_PHONE_SIZE = 225;
+export const CANVAS_PHONE_SIZE = 260;
+
 export const CELL_SIZE = CANVAS_SIZE / 15; // 格子大小
 export const CELL_PHONE_SIZE = CANVAS_PHONE_SIZE / 15
 export const POSITIONS = {
