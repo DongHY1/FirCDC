@@ -91,12 +91,14 @@ export default function Board() {
 
             <BoardInfo counter={counter} winner={winner} />
             <BoardSelect selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+
             {/* 棋盘渲染层 */}
             {selectedOption === DIV ? (<div className="board">{board}</div>) : (<CanvasBoard boardArray={boardArray} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} updateBoardArray={updateBoardArray} winner={winner} history={history} setHistory={setHistory} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} addCounter={addCounter} canRetract={canRetract} canCancelRetract={canCancelRetract} isRestart={isRestart} setIsRestart={setIsRestart} />)}
-            <div className="buttom">
-                <button onClick={handleRetract}>悔棋</button>
-                <button onClick={handleCancelRetract}>取消悔棋</button>
-                <button onClick={handleRestart}>重新开始</button>
+
+            <div className="buttomWrap">
+                <button  onClick={handleRetract}>悔棋</button>
+                <button  onClick={handleCancelRetract}>取消悔棋</button>
+                <button  onClick={handleRestart}>重新开始</button>
             </div>
 
         </>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LINE_WIDTH, LINE_COLOR, PLAYER1_COLOR, PLAYER2_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE } from "../../constants/config";
+import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE } from "../../constants/config";
 import { BoardArray, ChessColor, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
@@ -22,7 +22,6 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-
         const context = canvas.getContext("2d");
         if (!context) return;
         if (!isDrawTable) {
@@ -30,7 +29,6 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
             context.clearRect(0, 0, canvas.width, canvas.height)
             context.strokeStyle = LINE_COLOR;
             context.lineWidth = LINE_WIDTH;
-
             // 绘制棋盘
             context.beginPath();
             for (let i = 0; i < CANVAS_SIZE; i++) {
@@ -56,7 +54,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
                         0,
                         2 * Math.PI
                     );
-                    context.fillStyle = boardArray[row][col] === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
+                    context.fillStyle = boardArray[row][col] === BLACK_LABEL_INDEX ? '#3d3d3d' : '#efefef';
                     context.fill();
                 }
             }
@@ -99,7 +97,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
                         0,
                         2 * Math.PI
                     );
-                    context.fillStyle = boardArray[row][col] === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
+                    context.fillStyle = boardArray[row][col] === BLACK_LABEL_INDEX ? '#3d3d3d' : '#efefef';
                     context.fill();
                 }
             }
@@ -129,10 +127,9 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
                 0,
                 2 * Math.PI
             );
-            context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
+            context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? '#3d3d3d' : '#efefef';
             context.fill();
             context.closePath();
-
             updateCurrentPerson()
             addCounter();
             setCanRetract(true)  // click之后是可以悔棋的
@@ -152,7 +149,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
     return (
         <canvas
             ref={canvasRef}
-            style={{ padding: '2.5rem' }}
+            style={{ padding: '1rem' }}
             width={CANVAS_SIZE}
             height={CANVAS_SIZE}
             onClick={handleCanvasClick}

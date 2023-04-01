@@ -8,10 +8,26 @@
     transform: translate(-50%, -50%);
 }
 
+/* 黑色棋子 */
 .black {
-    background-color: black;
+    background-color: #3d3d3d;
 }
 
+/* 白色棋子 */
 .white {
-    background-color: white;
+    background-color: #efefef;
+}
+
+
+
+@media screen and (max-width: 480px) {
+    .circle {
+        position: absolute;
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
