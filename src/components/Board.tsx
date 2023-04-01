@@ -9,6 +9,7 @@ import BoardSelect from "./BoardSelect";
 import CanvasBoard from "./canvas/CanvasBoard";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button'
+import Footer from "./Footer";
 import '../styles/Board.css'
 export default function Board() {
     // DIV OR CANVAS?
@@ -105,7 +106,7 @@ export default function Board() {
                     <Button onClick={handleRestart}>重新开始</Button>
                 </ButtonGroup>
             </div>
-
+            <Footer />
         </>
     )
 }

@@ -1,7 +1,0 @@
-.BoardInfo {
-    display: flex;
-    flex-direction: column;
-    height: 5rem;
-    justify-content: space-between;
-    align-items: center;
-}

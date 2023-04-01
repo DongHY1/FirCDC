@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import confetti from 'canvas-confetti'
-import '../styles/BoardInfo.css'
+
 interface BoardInfoProps {
     counter: number
     winner: number
@@ -62,8 +62,8 @@ export default function BoardInfo({ counter, winner, handleRestart }: BoardInfoP
 
     }), [winner]
     return (
-        <div className="BoardInfo">
-            <h2>五子棋</h2>
+        <>
+            <h2 style={{ color: '#001858' }}>五子棋</h2>
             <Dialog
                 open={winner !== 0}
                 aria-labelledby="alert-dialog-title"
@@ -78,6 +78,6 @@ export default function BoardInfo({ counter, winner, handleRestart }: BoardInfoP
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </>
     );
 }

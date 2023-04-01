@@ -1,0 +1,19 @@
+.footer {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: #001858
+}
+
+.footerIcon {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footer:hover {
+    cursor: pointer;
+}
+
+.text {
+    color: #001858;
+}
