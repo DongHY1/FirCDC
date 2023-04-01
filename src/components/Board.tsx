@@ -90,10 +90,11 @@ export default function Board() {
 
     return (
         <>
+
             <BoardInfo counter={counter} winner={winner} />
             <BoardSelect selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
             {/* 棋盘渲染层 */}
-            {selectedOption === DIV ? (<div className="board">{board}</div>) : (<CanvasBoard boardArray={boardArray} currentPerson={currentPerson} />)}
+            {selectedOption === DIV ? (<div className="board">{board}</div>) : (<CanvasBoard boardArray={boardArray} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} />)}
             <div className="buttom">
                 <button onClick={handleRetract}>悔棋</button>
                 <button onClick={handleCancelRetract}>取消悔棋</button>

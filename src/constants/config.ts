@@ -1,4 +1,6 @@
 export const BOARD_SIZE = 15; // 棋盘大小
+export const CANVAS_SIZE = 480; // 棋盘大小
+export const CELL_SIZE = CANVAS_SIZE / 15; // 格子大小
 export const POSITIONS = {
     '0-0': 'top-left',
     [`0-${BOARD_SIZE - 1}`]: 'top-right',
@@ -16,7 +18,7 @@ export const BLACK_LABEL_INDEX = 1;
 export const WHITE_LABEL_INDEX = 2;
 export const DIV = "div";
 export const CANVAS = "canvas"
-export const LINE_WIDTH = 1;
+export const LINE_WIDTH = 0.7;
 export const LINE_COLOR = "#000000";
 export const STEP_COLOR = "#ffffff";
-export const CELL_SIZE = BOARD_SIZE / 15; // 格子大小
+
