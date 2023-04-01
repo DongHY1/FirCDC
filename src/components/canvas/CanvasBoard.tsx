@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE, CANVAS_PHONE_SIZE, CELL_PHONE_SIZE } from "../../constants/config";
-import useMobileDetect from 'use-mobile-detect-hook';
+import { useMediaQuery } from 'react-responsive'
 import { BoardArray, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
@@ -19,9 +19,8 @@ interface CanvasBoardProps {
 }
 export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray, winner, addCounter, setCanRetract, setCanCancelRetract, setHistory, history, canRetract, canCancelRetract, isRestart, setIsRestart }: CanvasBoardProps & Update) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const detectMobile = useMobileDetect();
     const [isDrawTable, setIsDrawTable] = useState(false)
-    const isMobile: boolean = detectMobile.isMobile()
+    const isMobile = useMediaQuery({ maxWidth: 767 });
     const _CANVAS_SIZE = isMobile ? CANVAS_PHONE_SIZE : CANVAS_SIZE
     const _CELL_SIZE = isMobile ? CELL_PHONE_SIZE : CELL_SIZE
     useEffect(() => {
