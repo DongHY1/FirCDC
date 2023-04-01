@@ -5,35 +5,39 @@ interface CanvasBoardProps {
     boardArray: BoardArray;
     currentPerson: number;
     updateCurrentPerson: () => void
+    history: Array<BoardArray>
+    winner: number
+    setHistory: any
+    setCanRetract: any
+    setCanCancelRetract: any
+    addCounter: () => void
 }
-interface DrawCircleProps {
-    context: any
-    col: number
-    row: number
-}
-export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray }: CanvasBoardProps & Update) {
+export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray, winner, addCounter, setCanRetract, setCanCancelRetract, setHistory, history }: CanvasBoardProps & Update) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-
+    const [isDrawTable, setIsDrawTable] = useState(false)
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         const context = canvas.getContext("2d");
         if (!context) return;
+        if (!isDrawTable) {
+            // 线的属性
+            context.strokeStyle = LINE_COLOR;
+            context.lineWidth = LINE_WIDTH;
 
-        // 线的属性
-        context.strokeStyle = LINE_COLOR;
-        context.lineWidth = LINE_WIDTH;
-
-        // 绘制棋盘
-        context.beginPath();
-        for (let i = 0; i < CANVAS_SIZE; i++) {
-            context.moveTo(CELL_SIZE / 2 + i * CELL_SIZE, CELL_SIZE / 2);
-            context.lineTo(CELL_SIZE / 2 + i * CELL_SIZE, CANVAS_SIZE - CELL_SIZE / 2);
-            context.moveTo(CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
-            context.lineTo(CANVAS_SIZE - CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
+            // 绘制棋盘
+            context.beginPath();
+            for (let i = 0; i < CANVAS_SIZE; i++) {
+                context.moveTo(CELL_SIZE / 2 + i * CELL_SIZE, CELL_SIZE / 2);
+                context.lineTo(CELL_SIZE / 2 + i * CELL_SIZE, CANVAS_SIZE - CELL_SIZE / 2);
+                context.moveTo(CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
+                context.lineTo(CANVAS_SIZE - CELL_SIZE / 2, CELL_SIZE / 2 + i * CELL_SIZE);
+            }
+            context.stroke();
+            context.closePath();
+            setIsDrawTable(true)
         }
-        context.stroke();
 
         // 根据boardArray 绘制
         for (let row = 0; row < BOARD_SIZE; row++) {
@@ -55,26 +59,13 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
 
     }, [boardArray]);
 
-    const drawCircle = (context: any, col: number, row: number) => {
-        // context.beginPath();
-        // context.arc(
-        //     col * CELL_SIZE + CELL_SIZE / 2,
-        //     row * CELL_SIZE + CELL_SIZE / 2,
-        //     CELL_SIZE / 2 - 2,
-        //     0,
-        //     2 * Math.PI
-        // );
-        // context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
-        // context.fill();
-        console.log('draw done!')
-    }
+    // 点击后，悔棋和取消悔棋有问题
     const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         const context = canvas.getContext("2d");
         if (!context) return;
-
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -84,7 +75,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         console.log(row, col, currentPerson)
 
         // 绘图逻辑
-        if (boardArray[row][col] === 0) {
+        if (boardArray[row][col] === 0 && winner === 0) {
             context.beginPath();
             context.arc(
                 col * CELL_SIZE + CELL_SIZE / 2,
@@ -95,8 +86,13 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
             );
             context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
             context.fill();
+            context.closePath();
 
             updateCurrentPerson()
+            addCounter();
+            setCanRetract(true)  // click之后是可以悔棋的
+            setCanCancelRetract(false) //click之后不可以直接取消悔棋
+            setHistory([...history, boardArray])
             updateBoardArray((arr) => {
                 const newArr = [...arr];
                 newArr[row] = [...arr[row]];
