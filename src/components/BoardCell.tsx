@@ -11,11 +11,12 @@ interface BoardCell {
     setHistory: any
     setCanRetract: any
     setCanCancelRetract: any
+    setIsRestart: any
     addCounter: () => void
     updateCurrentPerson: () => void
 }
 type BoardCellProps = IRowCol & Update & BoardCell;
-export default function BoardCell({ row, col, winner, setCanCancelRetract, setCanRetract, currentPerson, updateCurrentPerson, history, setHistory, boardArray, updateBoardArray, addCounter }: BoardCellProps) {
+export default function BoardCell({ row, col, winner, setCanCancelRetract, setCanRetract, currentPerson, updateCurrentPerson, history, setHistory, boardArray, updateBoardArray, addCounter, setIsRestart }: BoardCellProps) {
     const player = boardArray[row][col]
     const handleCircleClick = () => {
         // 只有当Player = 0的时候才能点击
@@ -25,6 +26,7 @@ export default function BoardCell({ row, col, winner, setCanCancelRetract, setCa
             setCanRetract(true)  // click之后是可以悔棋的
             setCanCancelRetract(false) //click之后不可以直接取消悔棋
             setHistory([...history, boardArray])
+            setIsRestart(false)
             updateBoardArray((arr) => {
                 const newArr = [...arr];
                 newArr[row] = [...arr[row]];

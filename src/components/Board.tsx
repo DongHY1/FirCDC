@@ -33,6 +33,8 @@ export default function Board() {
     const updateCurrentPerson = () => {
         currentPerson === BLACK_LABEL_INDEX ? setCurrentPerson(WHITE_LABEL_INDEX) : setCurrentPerson(BLACK_LABEL_INDEX)
     }
+    // 
+    const [isRestart, setIsRestart] = useState(false)
 
     // 记录最终赢家
     const [winner, setWinner] = useState(0)
@@ -43,7 +45,7 @@ export default function Board() {
     const board = [];
     for (let i = 0; i < BOARD_SIZE; i++) {
         for (let j = 0; j < BOARD_SIZE; j++) {
-            board.push(<BoardCell key={`${i}-${j}`} winner={winner} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} row={i} col={j} history={history} setHistory={setHistory} boardArray={boardArray} updateBoardArray={updateBoardArray} addCounter={addCounter} />);
+            board.push(<BoardCell key={`${i}-${j}`} winner={winner} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} row={i} col={j} history={history} setHistory={setHistory} boardArray={boardArray} updateBoardArray={updateBoardArray} addCounter={addCounter} setIsRestart={setIsRestart} />);
         }
     }
     const handleRetract = () => {
@@ -79,6 +81,7 @@ export default function Board() {
         setRetract([]);
         setCurrentPerson(BLACK_LABEL_INDEX);
         setCanRetract(true);
+        setIsRestart(true)
         setWinner(0);
         restartCounter()
     };
@@ -89,7 +92,7 @@ export default function Board() {
             <BoardInfo counter={counter} winner={winner} />
             <BoardSelect selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
             {/* 棋盘渲染层 */}
-            {selectedOption === DIV ? (<div className="board">{board}</div>) : (<CanvasBoard boardArray={boardArray} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} updateBoardArray={updateBoardArray} winner={winner} history={history} setHistory={setHistory} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} addCounter={addCounter} />)}
+            {selectedOption === DIV ? (<div className="board">{board}</div>) : (<CanvasBoard boardArray={boardArray} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} updateBoardArray={updateBoardArray} winner={winner} history={history} setHistory={setHistory} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} addCounter={addCounter} canRetract={canRetract} canCancelRetract={canCancelRetract} isRestart={isRestart} setIsRestart={setIsRestart} />)}
             <div className="buttom">
                 <button onClick={handleRetract}>悔棋</button>
                 <button onClick={handleCancelRetract}>取消悔棋</button>
