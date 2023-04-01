@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { LINE_WIDTH, LINE_COLOR, PLAYER1_COLOR, PLAYER2_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE } from "../../constants/config";
-import { BoardArray } from "../../types";
+import { BoardArray, ChessColor, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
     currentPerson: number;
     updateCurrentPerson: () => void
 }
 
-export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson }: CanvasBoardProps) {
+export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray }: CanvasBoardProps & Update) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -47,7 +47,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         const row = Math.floor(y / CELL_SIZE) - 1;
         const col = Math.floor(x / CELL_SIZE) - 1;
         console.log(row, col, currentPerson)
-        if (true) {
+        if (boardArray[row][col] === 0) {
             context.beginPath();
             context.arc(
                 col * CELL_SIZE + CELL_SIZE / 2,
@@ -56,9 +56,15 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
                 0,
                 2 * Math.PI
             );
-            context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? "black" : "white";
+            context.fillStyle = currentPerson === BLACK_LABEL_INDEX ? ChessColor.BLACK : ChessColor.WHITE;
             context.fill();
             updateCurrentPerson()
+            updateBoardArray((arr) => {
+                const newArr = [...arr];
+                newArr[row] = [...arr[row]];
+                newArr[row][col] = currentPerson === BLACK_LABEL_INDEX ? BLACK_LABEL_INDEX : WHITE_LABEL_INDEX;
+                return newArr;
+            });
         }
 
     };
