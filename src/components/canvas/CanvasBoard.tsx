@@ -112,7 +112,6 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
     return (
         <canvas
             ref={canvasRef}
-            style={{ padding: '1rem' }}
             width={_CANVAS_SIZE}
             height={_CANVAS_SIZE}
             onClick={handleCanvasClick}
