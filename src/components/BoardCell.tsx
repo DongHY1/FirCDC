@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react'
 import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config';
 import { IRowCol, Update, BoardArray } from '../types'
 import BoardCircle from './BoardCircle';
@@ -8,10 +9,10 @@ interface BoardCell {
     history: Array<BoardArray>
     currentPerson: number
     winner: number
-    setHistory: any
-    setCanRetract: any
-    setCanCancelRetract: any
-    setIsRestart: any
+    setHistory: Dispatch<SetStateAction<Array<BoardArray>>>
+    setCanRetract: Dispatch<SetStateAction<boolean>>
+    setCanCancelRetract: Dispatch<SetStateAction<boolean>>
+    setIsRestart: Dispatch<SetStateAction<boolean>>
     addCounter: () => void
     updateCurrentPerson: () => void
 }

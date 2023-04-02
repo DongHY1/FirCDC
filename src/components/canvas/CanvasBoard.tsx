@@ -1,21 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE, CANVAS_PHONE_SIZE, CELL_PHONE_SIZE } from "../../constants/config";
 import { useMediaQuery } from 'react-responsive'
 import { BoardArray, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
     currentPerson: number;
-    updateCurrentPerson: () => void
     history: Array<BoardArray>
     winner: number
     canRetract: boolean
     canCancelRetract: boolean
-    setHistory: any
-    setCanRetract: any
-    setCanCancelRetract: any
+    setHistory: Dispatch<SetStateAction<Array<BoardArray>>>
+    setCanRetract: Dispatch<SetStateAction<boolean>>
+    setCanCancelRetract: Dispatch<SetStateAction<boolean>>
     isRestart: boolean
-    setIsRestart: any
+    setIsRestart: Dispatch<SetStateAction<boolean>>
     addCounter: () => void
+    updateCurrentPerson: () => void
 }
 export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray, winner, addCounter, setCanRetract, setCanCancelRetract, setHistory, history, canRetract, canCancelRetract, isRestart, setIsRestart }: CanvasBoardProps & Update) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
