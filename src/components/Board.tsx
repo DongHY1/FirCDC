@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { BLACK_LABEL_INDEX, BOARD_SIZE, DIV, WHITE_LABEL_INDEX } from "../constants/config";
-import BoardCell from "./BoardCell";
 import { BoardArray } from '../types'
 import { useCounter } from "../hooks";
 import { checkWin } from "../helper";

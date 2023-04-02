@@ -1,8 +1,10 @@
-import React from 'react'
 import { BOARD_SIZE, POSITIONS } from '../constants/config'
-import { IRowCol } from '../types';
 import '../styles/BoardLine.css'
-export default function BoardLine({ row, col }: IRowCol) {
+interface BoardLineProps {
+    row: number
+    col: number
+}
+export default function BoardLine({ row, col }: BoardLineProps) {
     const position = POSITIONS[`${row}-${col}` as any]
     const boardClassName = position || (
         row === 0 ? 'top-middle' :
