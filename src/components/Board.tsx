@@ -9,10 +9,11 @@ import BoardSelect from "./BoardSelect";
 import CanvasBoard from "./canvas/CanvasBoard";
 import Footer from "./Footer";
 import BoardButton from "./BoardButton";
+import { useLocalStorage } from 'usehooks-ts'
 import '../styles/Board.css'
 export default function Board() {
     // DIV OR CANVAS?
-    const [selectedOption, setSelectedOption] = useState<string>(DIV);
+    const [selectedOption, setSelectedOption] = useLocalStorage("selectedOption", DIV);
     // 棋盘状态
     const [boardArray, setBoardArray] = useState<BoardArray>(() =>
         Array(BOARD_SIZE).fill(0).map(() => Array(BOARD_SIZE).fill(0))

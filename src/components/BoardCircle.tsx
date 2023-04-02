@@ -1,7 +1,7 @@
 import React from 'react'
 import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config'
-import '../styles/BoardCircle.css'
 import { ChessColor } from '../types'
+import '../styles/BoardCircle.css'
 interface BoardCircleProps {
     player: number
 }

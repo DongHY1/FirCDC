@@ -20,7 +20,7 @@
 
 
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 767px) {
     .circle {
         position: absolute;
         width: 0.8rem;

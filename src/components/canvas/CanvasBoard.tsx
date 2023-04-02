@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE, CANVAS_PHONE_SIZE, CELL_PHONE_SIZE } from "../../constants/config";
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'usehooks-ts'
 import { BoardArray, Update } from "../../types";
 interface CanvasBoardProps {
     boardArray: BoardArray;
@@ -20,7 +20,7 @@ interface CanvasBoardProps {
 export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray, winner, addCounter, setCanRetract, setCanCancelRetract, setHistory, history, canRetract, canCancelRetract, isRestart, setIsRestart }: CanvasBoardProps & Update) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawTable, setIsDrawTable] = useState(false)
-    const isMobile = useMediaQuery({ maxWidth: 767 });
+    const isMobile = useMediaQuery('(max-width: 767px)')
     const _CANVAS_SIZE = isMobile ? CANVAS_PHONE_SIZE : CANVAS_SIZE
     const _CELL_SIZE = isMobile ? CELL_PHONE_SIZE : CELL_SIZE
     useEffect(() => {
@@ -41,7 +41,7 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
             drawBoard(canvas, context)
             drawCircle(canvas, context)
         }
-    }, [boardArray, canRetract, canCancelRetract, isRestart, isDrawTable]);
+    }, [boardArray, canRetract, canCancelRetract, isRestart, isDrawTable, isMobile]);
 
     const drawBoard = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
         // 线的属性
