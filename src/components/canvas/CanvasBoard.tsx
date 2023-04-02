@@ -88,9 +88,8 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        const row = Math.floor(y / _CELL_SIZE) - 1;
-        const col = Math.floor(x / _CELL_SIZE) - 1;
-
+        const row = Math.floor(y / _CELL_SIZE);
+        const col = Math.floor(x / _CELL_SIZE);
         // 绘图逻辑
         if (boardArray[row][col] === 0 && winner === 0) {
             updateCurrentPerson()
