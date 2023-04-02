@@ -21,17 +21,3 @@
         min-width: 15rem;
     }
 }
-
-.buttomWrap {
-    width: 30rem;
-    display: flex;
-    justify-content: space-around;
-}
-
-@media screen and (max-width: 480px) {
-    .buttomWrap {
-        width: 18rem;
-        display: flex;
-        justify-content: center;
-    }
-}

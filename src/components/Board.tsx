@@ -11,6 +11,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button'
 import Footer from "./Footer";
 import '../styles/Board.css'
+import BoardButton from "./BoardButton";
 export default function Board() {
     // DIV OR CANVAS?
     const [selectedOption, setSelectedOption] = useState<string>(DIV);
@@ -99,13 +100,7 @@ export default function Board() {
                     board :
                     <CanvasBoard boardArray={boardArray} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} updateBoardArray={updateBoardArray} winner={winner} history={history} setHistory={setHistory} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} addCounter={addCounter} canRetract={canRetract} canCancelRetract={canCancelRetract} isRestart={isRestart} setIsRestart={setIsRestart} />
             }</div>
-            <div className="buttomWrap">
-                <ButtonGroup variant="text" aria-label="text button group">
-                    <Button onClick={handleRetract}>悔棋</Button>
-                    <Button onClick={handleCancelRetract}>取消悔棋</Button>
-                    <Button onClick={handleRestart}>重新开始</Button>
-                </ButtonGroup>
-            </div>
+            <BoardButton handleCancelRetract={handleCancelRetract} handleRestart={handleRestart} handleRetract={handleRetract} />
             <Footer />
         </>
     )

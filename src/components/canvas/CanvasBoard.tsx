@@ -9,10 +9,10 @@ interface CanvasBoardProps {
     winner: number
     canRetract: boolean
     canCancelRetract: boolean
+    isRestart: boolean
     setHistory: Dispatch<SetStateAction<Array<BoardArray>>>
     setCanRetract: Dispatch<SetStateAction<boolean>>
     setCanCancelRetract: Dispatch<SetStateAction<boolean>>
-    isRestart: boolean
     setIsRestart: Dispatch<SetStateAction<boolean>>
     addCounter: () => void
     updateCurrentPerson: () => void
