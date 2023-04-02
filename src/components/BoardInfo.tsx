@@ -1,9 +1,6 @@
 import { useEffect } from 'react'
 import { BLACK_LABEL_INDEX, WHITE_LABEL_INDEX } from '../constants/config';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
+import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import confetti from 'canvas-confetti'
 
 interface BoardInfoProps {

@@ -7,11 +7,9 @@ import { checkWin } from "../helper";
 import BoardInfo from "./BoardInfo";
 import BoardSelect from "./BoardSelect";
 import CanvasBoard from "./canvas/CanvasBoard";
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button'
 import Footer from "./Footer";
-import '../styles/Board.css'
 import BoardButton from "./BoardButton";
+import '../styles/Board.css'
 export default function Board() {
     // DIV OR CANVAS?
     const [selectedOption, setSelectedOption] = useState<string>(DIV);

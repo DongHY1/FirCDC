@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { DIV, CANVAS } from "../constants/config";
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button'
+import { Button, ButtonGroup } from '@mui/material'
 interface BoardSelectProps {
     selectedOption: string
     setSelectedOption: Dispatch<SetStateAction<string>>
