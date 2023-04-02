@@ -1,4 +1,3 @@
-import React from 'react'
 import GitHubIcon from '@mui/icons-material/GitHub';
 import '../styles/Footer.css'
 export default function Footer() {
