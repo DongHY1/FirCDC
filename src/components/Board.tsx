@@ -10,7 +10,7 @@ import CanvasBoard from "./canvas/CanvasBoard";
 import Footer from "./Footer";
 import BoardButton from "./BoardButton";
 import { useLocalStorage } from 'usehooks-ts'
-import '../styles/Board.css'
+import DivBoard from "./div/DivBoard";
 export default function Board() {
     // DIV OR CANVAS?
     const [selectedOption, setSelectedOption] = useLocalStorage("selectedOption", DIV);
@@ -44,13 +44,23 @@ export default function Board() {
     useEffect(() => {
         setWinner(checkWin(boardArray))
     }, [boardArray])
-
-    const board = [];
-    for (let i = 0; i < BOARD_SIZE; i++) {
-        for (let j = 0; j < BOARD_SIZE; j++) {
-            board.push(<BoardCell key={`${i}-${j}`} winner={winner} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} row={i} col={j} history={history} setHistory={setHistory} boardArray={boardArray} updateBoardArray={updateBoardArray} addCounter={addCounter} setIsRestart={setIsRestart} />);
+    const handleCellClick = (row: number, col: number) => {
+        if (boardArray[row][col] === 0 && winner === 0) {
+            updateCurrentPerson();
+            addCounter();
+            setCanRetract(true)  // click之后是可以悔棋的
+            setCanCancelRetract(false) //click之后不可以直接取消悔棋
+            setHistory([...history, boardArray])
+            setIsRestart(false)
+            updateBoardArray((arr) => {
+                const newArr = [...arr];
+                newArr[row] = [...arr[row]];
+                newArr[row][col] = currentPerson === BLACK_LABEL_INDEX ? BLACK_LABEL_INDEX : WHITE_LABEL_INDEX;
+                return newArr;
+            });
         }
     }
+
     const handleRetract = () => {
         // 悔棋仅在有操作数，winner还没出，且有历史纪录的情况下进行
         if (counter > 0 && history.length > 0 && canRetract && winner === 0) {
@@ -91,14 +101,13 @@ export default function Board() {
 
     return (
         <>
-
             <BoardInfo counter={counter} winner={winner} handleRestart={handleRestart} />
             <BoardSelect selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
-            <div className="board">{
+            {
                 selectedOption === DIV ?
-                    board :
-                    <CanvasBoard boardArray={boardArray} currentPerson={currentPerson} updateCurrentPerson={updateCurrentPerson} updateBoardArray={updateBoardArray} winner={winner} history={history} setHistory={setHistory} setCanRetract={setCanRetract} setCanCancelRetract={setCanCancelRetract} addCounter={addCounter} canRetract={canRetract} canCancelRetract={canCancelRetract} isRestart={isRestart} setIsRestart={setIsRestart} />
-            }</div>
+                    <DivBoard boardArray={boardArray} handleCellClick={handleCellClick} /> :
+                    <CanvasBoard boardArray={boardArray} handleCellClick={handleCellClick} canRetract={canRetract} canCancelRetract={canCancelRetract} isRestart={isRestart} />
+            }
             <BoardButton handleCancelRetract={handleCancelRetract} handleRestart={handleRestart} handleRetract={handleRetract} />
             <Footer />
         </>

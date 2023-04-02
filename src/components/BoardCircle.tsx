@@ -6,12 +6,9 @@ interface BoardCircleProps {
 }
 export default function BoardCircle({ player }: BoardCircleProps) {
     const showCircle = player === BLACK_LABEL_INDEX || player === WHITE_LABEL_INDEX
-    let color = ''
-    if (player === BLACK_LABEL_INDEX) {
-        color = ChessColor.BLACK
-    } else if (player === WHITE_LABEL_INDEX) {
-        color = ChessColor.WHITE
-    }
+    const color = player === BLACK_LABEL_INDEX ? ChessColor.BLACK :
+        player === WHITE_LABEL_INDEX ? ChessColor.WHITE :
+            '';
     return (
         showCircle ? <div className={`circle ${color}`}></div> : <></>
     )

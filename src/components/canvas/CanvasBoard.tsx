@@ -1,23 +1,16 @@
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
-import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, WHITE_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE, CANVAS_PHONE_SIZE, CELL_PHONE_SIZE } from "../../constants/config";
+import { useState, useEffect, useRef } from "react";
+import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE, CANVAS_PHONE_SIZE, CELL_PHONE_SIZE } from "../../constants/config";
 import { useMediaQuery } from 'usehooks-ts'
-import { BoardArray, Update } from "../../types";
+import { BoardArray } from "../../types";
+import '../../styles/DivBoard.css'
 interface CanvasBoardProps {
     boardArray: BoardArray;
-    currentPerson: number;
-    history: Array<BoardArray>
-    winner: number
     canRetract: boolean
     canCancelRetract: boolean
     isRestart: boolean
-    setHistory: Dispatch<SetStateAction<Array<BoardArray>>>
-    setCanRetract: Dispatch<SetStateAction<boolean>>
-    setCanCancelRetract: Dispatch<SetStateAction<boolean>>
-    setIsRestart: Dispatch<SetStateAction<boolean>>
-    addCounter: () => void
-    updateCurrentPerson: () => void
+    handleCellClick: (row: number, col: number) => void
 }
-export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPerson, updateBoardArray, winner, addCounter, setCanRetract, setCanCancelRetract, setHistory, history, canRetract, canCancelRetract, isRestart, setIsRestart }: CanvasBoardProps & Update) {
+export default function CanvasBoard({ boardArray, handleCellClick, canRetract, canCancelRetract, isRestart }: CanvasBoardProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawTable, setIsDrawTable] = useState(false)
     const isMobile = useMediaQuery('(max-width: 767px)')
@@ -91,31 +84,18 @@ export default function CanvasBoard({ boardArray, currentPerson, updateCurrentPe
         const row = Math.floor(y / _CELL_SIZE);
         const col = Math.floor(x / _CELL_SIZE);
         // 绘图逻辑
-        if (boardArray[row][col] === 0 && winner === 0) {
-            updateCurrentPerson()
-            addCounter();
-            setCanRetract(true)  // click之后是可以悔棋的
-            setCanCancelRetract(false) //click之后不可以直接取消悔棋
-            setHistory([...history, boardArray])
-            setIsRestart(false)
-            updateBoardArray((arr) => {
-                const newArr = [...arr];
-                newArr[row] = [...arr[row]];
-                newArr[row][col] = currentPerson === BLACK_LABEL_INDEX ? BLACK_LABEL_INDEX : WHITE_LABEL_INDEX;
-                return newArr;
-            });
-
-        }
-
+        handleCellClick(row, col)
     };
     return (
-        <canvas
-            ref={canvasRef}
-            width={_CANVAS_SIZE}
-            height={_CANVAS_SIZE}
-            onClick={handleCanvasClick}
-        >
-            您的浏览器不支持Canvas
-        </canvas>
+        <div className="board">
+            <canvas
+                ref={canvasRef}
+                width={_CANVAS_SIZE}
+                height={_CANVAS_SIZE}
+                onClick={handleCanvasClick}
+            >
+                您的浏览器不支持Canvas
+            </canvas>
+        </div>
     );
 }
