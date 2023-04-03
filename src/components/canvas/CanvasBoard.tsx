@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { LINE_WIDTH, LINE_COLOR, BLACK_LABEL_INDEX, CANVAS_SIZE, CELL_SIZE, BOARD_SIZE, CANVAS_PHONE_SIZE, CELL_PHONE_SIZE } from "../../constants/config";
-import { useMediaQuery } from 'usehooks-ts'
 import { BoardArray } from "../../types";
+import { useMediaQuery } from "../../hooks";
 import '../../styles/DivBoard.css'
 interface CanvasBoardProps {
     boardArray: BoardArray;
