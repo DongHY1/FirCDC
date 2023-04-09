@@ -4,7 +4,7 @@
 
 A Five In A Row game - 五子棋, which is a personal project for CDC.
 
-[fir.szuhy.xyz](https://fir.szuhy.xyz)
+[fir.donghy.me](https://fir.donghy.me)
 
 ## Feature
 - 📝 **Undo,Redo** -  allows player to take back their last move and cancel.
