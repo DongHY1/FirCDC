@@ -16,10 +16,6 @@ A Five In A Row game - 五子棋, which is a personal project for CDC.
 - Run `pnpm install`
 - Run `pnpm dev` and visit `http://localhost:5173`
 
-## Tech Stack
-
-- [React](https://react.dev/)
-- [Vite](https://vitejs.dev/)
 ## Structure
 ```
 ├─ .gitignore           
